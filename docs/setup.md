@@ -25,6 +25,21 @@ npm i -D prettier-plugin-tailwindcss
 ```
  
 
+### create a .prettierrc file in the root of the project and add the following code:
+
+```json
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "trailingComma": "es5",
+  "tabWidth": 4,
+  "semi": true,
+  "singleQuote": true,
+  "endOfLine": "auto"
+}
+
+```
+ 
+
 
 ## Installation
 1. Clone the repository
