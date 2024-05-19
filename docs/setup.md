@@ -40,6 +40,20 @@ npm i -D prettier-plugin-tailwindcss
 ```
  
 
+## past this code in the tailwind.config.js file
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+}
+
+```
+
 
 ## Installation
 1. Clone the repository
