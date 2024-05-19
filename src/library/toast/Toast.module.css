@@ -1,0 +1,40 @@
+
+/* Transition for the popover itself */
+:root {
+    --popover-transition-duration: 0.2s;
+}
+
+
+.popoverClass[popover]:popover-open {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.popoverClass[popover] {
+
+
+    /* Final state of the exit animation */
+    opacity: 0;
+    transform: scale(.8);
+
+    transition:
+            opacity var(--popover-transition-duration),
+            transform var(--popover-transition-duration),
+            overlay var(--popover-transition-duration) allow-discrete,
+            display var(--popover-transition-duration) allow-discrete;
+    /* Equivalent to
+    transition: all 0.7s allow-discrete; */
+
+
+}
+
+/* Needs to be after the previous .popoverClass[popover]:popover-open rule
+to take effect, as the specificity is the same */
+@starting-style {
+    .popoverClass[popover]:popover-open {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+
