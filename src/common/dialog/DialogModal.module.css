@@ -9,7 +9,8 @@
     /*transform: translateX(-0%) translateY(-0%);*/
     background-color: transparent;
 }
- .dialogBackDrop::backdrop {
+
+.dialogBackDrop::backdrop {
     --msvar: ms;
     counter-reset: variable var(--animation-time-var);
 
@@ -22,12 +23,11 @@
 }
 
 
-
-.backdropAppear::backdrop {
+.openingAnimation::backdrop {
     opacity: 1;
 }
 
-.backdropDisappear::backdrop {
+.closingAnimation::backdrop {
     opacity: 0;
 }
 

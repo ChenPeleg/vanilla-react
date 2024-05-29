@@ -1,0 +1,106 @@
+:root {
+    --bottom-sheet-animation-time-var: 1300ms;
+    --bottom-sheet-hidden-y: 70vh;
+}
+
+.dialogModal {
+    /*top: 33%;*/
+    /*left: 50%;*/
+    /*-ms-transform: translateX(-0%) translateY(-0%);*/
+    /*transform: translateX(-0%) translateY(-0%);*/
+    background-color: transparent;
+}
+
+.dialogBackDrop::backdrop {
+    --msvar: ms;
+    counter-reset: variable var(--bottom-sheet-animation-time-var);
+    background-color: rgba(26, 56, 64, 0.45);
+    /*transition: opacity 300ms ease-in-out;*/
+    /*animation: backdrop-appear ease-in-out;*/
+    /*animation-duration: 300ms;*/
+
+}
+
+
+div.bottomSheetAnimationContainer {
+    transition: transform var(--bottom-sheet-animation-time-var) cubic-bezier(0, 0, 0.2, 1);
+    /*transform: translateY(0%);*/
+}
+
+.bottomSheetAppear {
+    transform: translateY(0vh);
+    /*animation-name: enter-bottom-sheet-animation;*/
+    /*animation-timing-function: cubic-bezier(0, 0, 0.2, 1);*/
+    /*animation-duration: var(--bottom-sheet-animation-time-var);*/
+}
+
+div.bottomSheetDisappear.bottomSheetAnimationContainer {
+    transform: translateY(var(--bottom-sheet-hidden-y));
+    /*transform: translateY(80vh);*/
+    /*animation-name: exit-bottom-sheet-animation;*/
+    /*animation-timing-function: cubic-bezier(0, 0, 0.2, 1);*/
+    /*animation-duration: var(--bottom-sheet-animation-time-var);*/
+}
+
+@starting-style {
+    div.bottomSheetAppear.bottomSheetAnimationContainer {
+        transform: translateY(var(--bottom-sheet-hidden-y));
+    }
+}
+
+
+/*.bottomSheetOpeningAnimation::backdrop {*/
+/*    opacity: 1;*/
+/*}*/
+
+/*.bottomSheetClosingAnimation::backdrop {*/
+/*    opacity: 0;*/
+/*}*/
+
+
+/*@keyframes backdrop-appear {*/
+/*    from {*/
+/*        !*opacity: 0;*!*/
+/*        opacity: 1;*/
+/*    }*/
+/*    to {*/
+/*        opacity: 1;*/
+/*    }*/
+/*}*/
+
+/*@keyframes backdrop-disappear {*/
+/*    from {*/
+/*        opacity: 1;*/
+/*    }*/
+/*    to {*/
+/*        opacity: 0;*/
+/*    }*/
+/*}*/
+
+/*@keyframes enter-bottom-sheet-animation {*/
+/*    0% {*/
+/*        opacity: 1;*/
+/*        transform: translateY(80vh);*/
+
+
+/*    }*/
+/*    100% {*/
+/*        opacity: 1;*/
+/*        transform: translateY(00vh);*/
+/*    }*/
+
+/*}*/
+
+/*@keyframes exit-bottom-sheet-animation {*/
+/*    0% {*/
+/*        opacity: 1;*/
+/*        transform: translateY(00vh);*/
+
+
+/*    }*/
+/*    100% {*/
+/*        opacity: 0.5;*/
+/*        transform: translateY(80vh);*/
+/*    }*/
+
+/*}*/

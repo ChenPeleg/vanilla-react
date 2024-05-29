@@ -1,0 +1,119 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+:root {
+    --size-ratio: 1;
+    --phone-color: #444252;
+    --accent-color: #c7b0c3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #eee;
+    /*font-family: "Montserrat", sans-serif;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+.phone {
+    transition: height 0.4s ease-in-out, width 0.4s ease-in-out;
+    position: relative;
+    border: 7px solid var(--phone-color);
+    border-radius: calc(var(--size-ratio) * 20px);
+    height: calc(var(--size-ratio) * 600px);
+    width: calc(var(--size-ratio) * 320px);
+}
+
+.phone:after {
+    /*content: "";*/
+    /*position: absolute;*/
+    /*width: calc(var(--size-ratio) * 500px);*/
+    /*height: calc(var(--size-ratio) * 660px);*/
+    /*background-color: rgba(0, 0, 0, 0.05);*/
+    /*background: linear-gradient(*/
+    /*        90deg,*/
+    /*        rgba(0, 0, 0, 0.05) 0%,*/
+    /*        rgba(0, 0, 0, 0) 100%*/
+    /*);*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*transform: rotate(27deg);*/
+    /*transform-origin: bottom left;*/
+    /*z-index: -1;*/
+}
+
+.screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: calc(var(--size-ratio) * 10px);
+    overflow: hidden;
+}
+
+.phoneButton {
+    position: absolute;
+    background-color: var(--phone-color);
+    width: calc(var(--size-ratio) * 10px);
+    height: calc(var(--size-ratio) * 50px);
+    z-index: 100;
+}
+
+.phoneButton1 {
+    top: calc(var(--size-ratio) * 100px);
+    left: calc(var(--size-ratio) * -10px);
+    border-radius: 5px 0 0 5px;
+}
+
+.phoneButton2 {
+    top: calc(var(--size-ratio) * 160px);
+    left: calc(var(--size-ratio) * -10px);;
+    border-radius: 5px 0 0 5px;
+}
+
+.phoneButton3 {
+    top: calc(var(--size-ratio) * 100px);
+    right: calc(var(--size-ratio) * -10px);
+    height: calc(var(--size-ratio) * 100px);
+    border-radius: 0 5px 5px 0;
+}
+
+.phone .content {
+    opacity: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: calc(100% - (var(--size-ratio) * 60px));
+    width: 100%;
+    transition: opacity 0.4s ease;
+}
+
+.phone .content.show {
+    opacity: 1;
+}
+
+nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-top: calc(var(--size-ratio) * -5px);
+    width: 100%;
+}
+
+nav ul {
+    background-color: #fff;
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: calc(var(--size-ratio) * 60px);
+}
+
+

@@ -1,6 +1,6 @@
-import { MenuOption } from '../../models/MenuOption.ts';
 import { AppDropdownControlled } from './AppDropdownControlled.tsx';
 import React from 'react';
+import { MenuOption } from './MenuOption.ts';
 
 export const AppDropdownUncontrolled = ({
     options,
@@ -17,6 +17,12 @@ export const AppDropdownUncontrolled = ({
     config?: {
         className?: string;
         width?: string | number;
+        customButton?: (props: {
+            isOpen: boolean;
+            buttonsClickHandler: (isOpen: boolean) => void;
+        }) => React.ReactNode & {
+            props: { buttonsClickHandler: () => void };
+        };
     };
     name?: string;
 }) => {

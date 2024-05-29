@@ -20,6 +20,7 @@ function useOutsideHandler(
                     outSideAlertHandler();
             }
         }
+
         // Bind the event listener
         // @ts-expect-error this is correct
         document.addEventListener('mousedown', handleClickOutside);
@@ -44,5 +45,9 @@ export const OutsideAlerter = ({
     const wrapperRef = useRef(null);
     useOutsideHandler(wrapperRef, outSideAlertHandler);
 
-    return <div ref={wrapperRef}>{children}</div>;
+    return (
+        <div className={'flex'} id={'OutsideAlerter wrapper'} ref={wrapperRef}>
+            {children}
+        </div>
+    );
 };

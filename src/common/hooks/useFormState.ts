@@ -1,31 +1,13 @@
 import React, { useEffect } from 'react';
-import { sleep } from '../tools/sleep.ts';
 
 export interface FormState<T extends Record<string, any>> {
     values: T;
-    errors: Record<string, string> | null;
     isValid: boolean;
     isTouched: boolean;
 }
 
-export interface FormValues<T extends Record<string, any>> {
-    /**
-     * Validate the form values
-     * Return true if the form is valid
-     * Return an object with the errors if the form is invalid
-     * if the function is too complex might hurt performance
-     * @param {T} values
-     * @return {Record<string, string> | true}
-     */
-    validate?: (values: T) => Record<string, string> | true;
-    initialValues?: FormState<T>['values'];
-}
-
-const FORM_CHANGE_EVENT = 'keydown';
-const FORM_CHANGE_EVENT_2 = 'mouseup';
-
 const buildInitialFormState = <T extends Record<string, any>>(
-    values: FormValues<T>,
+    values: T,
     formRef: React.MutableRefObject<HTMLFormElement | undefined>
 ) => {
     const nativeFormValues = getFormValues(formRef?.current);
@@ -58,7 +40,7 @@ export const getFormValues = (
     return obj;
 };
 
-export const setFormValues = (
+export const setFormValuesInElements = (
     form: HTMLFormElement | undefined,
     values: Record<string, any>
 ): void => {
@@ -77,83 +59,67 @@ export const setFormValues = (
             }
             // @ts-expect-error there is value
             input.defaultValue = values[name];
-            // input.nodeValue = values[name];
-            // input.setAttribute('defaultValue', values[name]);
-            // input.setAttribute('value', values[name]);
         }
     }
 };
 export const useFormState = <T extends Record<string, any>>(
     formRef: React.RefObject<HTMLFormElement>,
-    formValues?: FormValues<T>
-) => {
+    formProperties?: { initialValues: T }
+): FormState<T> & { setField: (name: string, value: any) => void } => {
     const [formState, setFormState] = React.useState<FormState<T>>(
         // @ts-expect-error the values are supposed to be the same
-        buildInitialFormState(
-            // @ts-expect-error the values are supposed to be the same
-            formValues,
-            formRef
-        )
+        buildInitialFormState(formProperties, formRef)
     );
-    const [hasEventListener, setHasEventListener] = React.useState(false);
+    const setField = (name: string, value: any) => {
+        setFormState((prevState) => ({
+            ...prevState,
+            isTouched: true,
+            values: {
+                ...prevState.values,
+                [name]: value,
+            },
+        }));
+    };
 
-    const handleFormChangeListener = React.useCallback(() => {
-        sleep(100).then(() => {
-            if (!formRef || !formRef.current) {
-                return;
-            }
-            const currentValues = getFormValues(formRef.current);
-
-            let errors: null | Record<string, string> | null = null;
-            let isValid = true;
-            if (formValues?.validate) {
-                // @ts-expect-error the values are supposed to be the same
-                errors = formValues.validate(currentValues);
-                if (errors === null) {
-                    isValid = false;
-                }
-            }
-            // @ts-expect-error the values are supposed to be the same
-            setFormState((prevState) => ({
-                ...prevState,
-                values: currentValues,
-                errors,
-                isValid,
-            }));
-        });
-    }, [formValues]);
-
-    const cleanUpEventListener = React.useCallback(() => {
-        if (!formRef || !formRef.current) {
+    const onChangeListener = (
+        changeEvent: React.FormEvent<HTMLFormElement>
+    ) => {
+        const target = changeEvent.target as HTMLInputElement;
+        if (!target) {
             return;
         }
-        formRef.current.removeEventListener(
-            FORM_CHANGE_EVENT,
-            handleFormChangeListener
-        );
-        formRef.current.removeEventListener(
-            FORM_CHANGE_EVENT_2,
-            handleFormChangeListener
-        );
-    }, []);
+        const name = target.getAttribute('name');
+        if (!name) {
+            return;
+        }
+        const value = target.value;
+        setField(name, value);
+        if (formRef.current) {
+            const validity = formRef.current.checkValidity();
+            if (validity !== formState.isValid) {
+                setFormState((prevState) => ({
+                    ...prevState,
+                    isValid: validity,
+                }));
+            }
+        }
+    };
 
     useEffect(() => {
         if (!formRef || !formRef.current) {
             return;
         }
-
         const currentValues = getFormValues(formRef.current);
         const valuesToSet: Record<string, any> = {};
-
         for (const key of Object.keys(currentValues)) {
-            if (currentValues[key] === '' && formValues?.initialValues) {
-                currentValues[key] = formValues?.initialValues[key];
-                valuesToSet[key] = formValues?.initialValues[key];
+            if (currentValues[key] === '' && formProperties?.initialValues) {
+                currentValues[key] = formProperties?.initialValues[key];
+                valuesToSet[key] = formProperties?.initialValues[key];
             }
         }
 
         if (Object.keys(valuesToSet).length > 0) {
-            setFormValues(formRef.current, valuesToSet);
+            setFormValuesInElements(formRef.current, valuesToSet);
         }
 
         // @ts-expect-error the values are supposed to be the same
@@ -161,19 +127,12 @@ export const useFormState = <T extends Record<string, any>>(
             ...prevState,
             values: { ...currentValues },
         }));
-        if (!hasEventListener) {
-            formRef.current.addEventListener(
-                FORM_CHANGE_EVENT,
-                handleFormChangeListener
-            );
-            formRef.current.addEventListener(
-                FORM_CHANGE_EVENT_2,
-                handleFormChangeListener
-            );
-            setHasEventListener(true);
-        }
-        return cleanUpEventListener;
+
+        formRef.current.onchange = (ev: any) => onChangeListener(ev);
     }, [formRef]);
 
-    return formState;
+    return {
+        ...formState,
+        setField,
+    };
 };

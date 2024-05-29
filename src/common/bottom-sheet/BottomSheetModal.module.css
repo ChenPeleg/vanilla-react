@@ -1,0 +1,39 @@
+:root {
+    --bottom-sheet-animation-time-var: 300ms;
+    --bottom-sheet-hidden-y: 500px;
+}
+
+
+div.bottomSheetAnimationContainer {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: transform var(--bottom-sheet-animation-time-var) ease-in-out, background-color var(--bottom-sheet-animation-time-var) cubic-bezier(0, 0, 0.2, 1);
+    transform: translateY(var(20%));
+
+}
+
+div.bottomSheetAppear.bottomSheetAnimationContainer {
+    transform: translateY(0px);
+}
+
+div.bottomSheetDisappear.bottomSheetAnimationContainer {
+    transform: translateY(var(--bottom-sheet-hidden-y));
+
+}
+
+@starting-style {
+    div.bottomSheetAppear.bottomSheetAnimationContainer {
+        transform: translateY(var(--bottom-sheet-hidden-y));
+    }
+}
+
+
+.bottomSheetOpeningAnimation::backdrop {
+    opacity: 1;
+}
+
+.bottomSheetClosingAnimation::backdrop {
+    opacity: 0;
+}

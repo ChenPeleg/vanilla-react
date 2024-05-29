@@ -16,9 +16,11 @@ export const DialogModal = ({
         hasBackdrop?: boolean; //default true
         cancelable?: boolean; //default true
         closeAfter?: number; //default 300ms
+        openAnimationDuration?: number; //default 300ms
     };
 }) => {
     const CLOSE_AFTER_ANIMATION_MS = 300;
+    const OPEN_ANIMATION_DURATION = options?.openAnimationDuration || 300;
     const [showClosingAnimation, setShowClosingAnimation] =
         React.useState<boolean>(false);
     const modalRef = React.useRef<HTMLDialogElement>(null);
@@ -59,6 +61,8 @@ export const DialogModal = ({
 
     return (
         <dialog
+            // @ts-expect-error this is a valid property
+            style={{ '--animation-time-var': `${OPEN_ANIMATION_DURATION}ms` }}
             onClick={handleOnClick}
             onKeyDown={closeModalOnEsc}
             ref={modalRef}
